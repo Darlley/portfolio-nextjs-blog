@@ -1,0 +1,742 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body,
+html {
+  @apply
+  m-0
+  scroll-smooth
+
+  selection:bg-primary/20
+  selection:text-primary;
+} 
+
+/* reset */
+button,
+p {
+  all: unset;
+}
+
+.NavigationMenuRoot {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 4;
+  color: black;
+}
+
+.NavigationMenuList {
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  list-style: none;
+  margin: 0;
+}
+
+.NavigationMenuTrigger,
+.NavigationMenuLink {
+  padding: 8px 12px;
+  outline: none;
+  user-select: none;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 4px;
+  font-size: 15px;
+  color: white;
+}
+.NavigationMenuTrigger:hover,
+.NavigationMenuLink:hover {
+  background-color: rgba(255, 255, 255, 0.057);
+}
+
+.NavigationMenuTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.NavigationMenuLink {
+  display: block;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.NavigationMenuContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+.NavigationMenuContent[data-motion='from-start'] {
+  animation-name: enterFromLeft;
+}
+.NavigationMenuContent[data-motion='from-end'] {
+  animation-name: enterFromRight;
+}
+.NavigationMenuContent[data-motion='to-start'] {
+  animation-name: exitToLeft;
+}
+.NavigationMenuContent[data-motion='to-end'] {
+  animation-name: exitToRight;
+}
+@media only screen and (min-width: 600px) {
+  .NavigationMenuContent {
+    width: auto;
+  }
+}
+
+.NavigationMenuIndicator {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 10px;
+  top: 100%;
+  overflow: hidden;
+  z-index: 1;
+  transition: width, transform 250ms ease;
+}
+.NavigationMenuIndicator[data-state='visible'] {
+  animation: fadeIn 200ms ease;
+}
+.NavigationMenuIndicator[data-state='hidden'] {
+  animation: fadeOut 200ms ease;
+}
+
+.NavigationMenuViewport {
+  position: relative;
+  transform-origin: top center;
+  margin-top: 10px;
+  width: 100%;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  height: var(--radix-navigation-menu-viewport-height);
+  transition: width, height, 300ms ease;
+}
+.NavigationMenuViewport[data-state='open'] {
+  animation: scaleIn 200ms ease;
+}
+.NavigationMenuViewport[data-state='closed'] {
+  animation: scaleOut 200ms ease;
+}
+@media only screen and (min-width: 600px) {
+  .NavigationMenuViewport {
+    width: var(--radix-navigation-menu-viewport-width);
+  }
+}
+
+.List {
+  display: grid;
+  padding: 22px;
+  margin: 0;
+  column-gap: 10px;
+  list-style: none;
+}
+@media only screen and (min-width: 600px) {
+  .List.one {
+    width: 500px;
+    grid-template-columns: 0.75fr 1fr;
+  }
+  .List.two {
+    width: 600px;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
+.ListItemLink {
+  display: block;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  line-height: 1;
+}
+.ListItemLink:focus {
+  box-shadow: 0 0 0 2px var(--violet7);
+}
+.ListItemLink:hover {
+  background-color: var(--mauve3);
+}
+
+.ListItemHeading {
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  color: var(--violet12);
+}
+
+.ListItemText {
+  color: var(--mauve11);
+  line-height: 1.4;
+  font-weight: initial;
+}
+
+.Callout {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: max-content;
+  height: max-content;
+  border-radius: 6px;
+  text-decoration: none;
+  outline: none;
+  user-select: none;
+}
+.Callout:focus {
+  box-shadow: 0 0 0 2px var(--violet7);
+}
+
+.CalloutHeading {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 16px;
+  margin-bottom: 7px;
+}
+
+.CalloutText {
+  color: var(--mauve4);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.ViewportPosition {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  perspective: 2000px;
+}
+
+.CaretDown {
+  position: relative;
+  color: #62dafc;
+  top: 1px;
+  transition: transform 250ms ease;
+}
+[data-state='open'] > .CaretDown {
+  transform: rotate(-180deg);
+}
+
+.Arrow {
+  position: relative;
+  top: 70%;
+  background-color: white;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border-top-left-radius: 2px;
+}
+
+@keyframes enterFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes enterFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes exitToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+}
+
+@keyframes exitToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: rotateX(-30deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotateX(-10deg) scale(0.95);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.curriculo {
+  @apply 
+  text-zinc-700
+  dark:text-zinc-300
+  bg-white
+  dark:bg-zinc-900
+}
+
+.curriculo__header {
+  @apply 
+  flex 
+  flex-col
+}
+
+.curriculo__fixed__top {
+  @apply 
+  bg-zinc-100 
+  dark:bg-gray-900
+  p-4 
+  md:p-6
+  z-[2]
+  w-full
+}
+
+.curriculo__fixed__top--container {
+  @apply 
+  w-full
+  max-w-4xl 
+  m-auto 
+  flex 
+  flex-col 
+  md:flex-row 
+  gap-4 
+  items-start 
+  justify-between
+}
+
+.curriculo__fixed__top--item {
+  @apply 
+  flex 
+  items-center 
+  gap-1
+  hover:text-zinc-900 
+  dark:hover:text-zinc-100
+  transition-colors 
+  relative
+}
+
+.curriculo__header__content {
+  @apply 
+  pt-20 
+  pb-10 
+  md:px-0 
+  p-4
+  max-w-4xl
+  mx-auto
+  flex
+  flex-col
+  md:flex-row
+  gap-20
+  justify-between
+  items-center
+  mt-10
+}
+
+.curriculo__header__content--profile {
+  @apply 
+  w-full
+  md:w-5/12
+  flex
+  items-center
+  justify-center
+  drop-shadow-md
+  z-0
+}
+
+.curriculo__header__content--headline {
+  @apply 
+  flex-1
+  flex
+  flex-col
+  text-center
+  md:text-left
+  gap-2
+}
+
+.curriculo__header__content--headline h1 {
+  @apply 
+  font-light 
+  text-4xl 
+  md:text-6xl
+  text-gray-900
+  dark:text-zinc-100
+}
+
+.curriculo__header__content--headline h1 strong {
+  @apply 
+  font-bold 
+  text-blue-600
+  dark:text-blue-400
+}
+
+.curriculo__header__content--headline h2 {
+  @apply 
+  font-light 
+  text-2xl
+  text-zinc-600
+  dark:text-zinc-400
+}
+
+.curriculo__app__main {
+  @apply 
+  max-w-4xl 
+  m-auto 
+  flex 
+  flex-col 
+  gap-20 
+  px-4 
+  py-10 
+  xl:px-0
+}
+
+.curriculo__app__item {
+  @apply 
+  flex 
+  flex-col 
+  gap-2
+}
+
+.curriculo__app__title {
+  @apply 
+  text-xl 
+  font-bold 
+  text-blue-600 
+  dark:text-blue-400
+  uppercase
+}
+
+.curriculo__app__description {
+  @apply 
+  text-base 
+  font-light
+  text-zinc-700
+  dark:text-zinc-300
+}
+
+.curriculo__row {
+  @apply 
+  flex 
+  flex-col 
+  md:flex-row 
+  gap-20
+}
+
+.curriculo__col-5 {
+  @apply 
+  w-full 
+  md:w-5/12
+}
+
+.curriculo__col-7 {
+  @apply 
+  flex-1
+}
+
+.curriculo__col-5,
+.curriculo__col-5 {
+  @apply 
+  flex 
+  flex-col 
+  gap-20
+}
+
+.curriculo__app__container {
+  @apply 
+  flex 
+  w-full 
+  flex-wrap 
+  justify-start 
+  gap-2
+}
+
+.curriculo__app__tag {
+  @apply 
+  flex 
+  items-start 
+  justify-center 
+  px-2 
+  py-1 
+  text-sm 
+  font-bold
+  bg-blue-600 
+  dark:bg-blue-500
+  uppercase 
+  rounded-full 
+  w-max 
+  text-white
+  dark:text-blue-50
+}
+
+.curriculo__app__date--timeline {
+  @apply 
+  text-base
+  text-zinc-600
+  dark:text-zinc-400
+}
+
+.curriculo__app__title--timeline {
+  @apply 
+  text-lg 
+  font-bold 
+  uppercase
+  text-gray-900
+  dark:text-zinc-200
+}
+
+.curriculo__app__description--timeline {
+  @apply 
+  text-base 
+  font-light
+  text-zinc-700
+  dark:text-zinc-300
+}
+
+.curriculo__app__timeline {
+  @apply 
+  relative 
+  flex 
+  flex-col 
+  gap-2
+}
+
+.curriculo__app__timeline::after {
+  @apply 
+  content-[""] 
+  absolute w-1 
+  bg-blue-200 
+  dark:bg-blue-800
+  top-6 
+  bottom-0 
+  ml-[10px]
+}
+
+.curriculo__timeline__item {
+  @apply 
+  relative 
+  pl-8
+}
+
+.curriculo__timeline__item::after {
+  @apply 
+  content-[""] 
+  absolute 
+  left-0 
+  w-6 
+  h-6 
+  top-3 
+  rounded-full 
+  border-4 
+  border-blue-600 
+  bg-blue-500 
+  dark:border-blue-400
+  dark:bg-blue-600
+  shadow-md 
+  z-10
+}
+
+.curriculo__left {
+  left: 0;
+}
+
+.curriculo__content {
+  @apply 
+  relative 
+  my-3
+}
+
+@media screen and (max-width: 600px) {
+  .curriculo__timeline::after {
+    left: 31px;
+  }
+
+  .curriculo__container {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+
+  .curriculo__container::before {
+    left: 60px;
+    border: medium solid #ffffff;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #ffffff transparent transparent;
+  }
+
+  .curriculo__left::after,
+  .curriculo__right::after {
+    left: 15px;
+  }
+
+  .curriculo__right {
+    left: 0%;
+  }
+}
+
+.curriculo__footer {
+  @apply 
+  w-full 
+  bg-zinc-100
+  dark:bg-gray-900
+}
+
+.curriculo__footer__container {
+  @apply 
+  flex 
+  flex-col 
+  items-end
+  md:items-center
+  md:flex-row
+  max-w-4xl
+  m-auto  
+  p-4
+  justify-between
+  text-zinc-700
+  dark:text-zinc-300
+}
+
+.curriculo__underline {
+  @apply
+  hover:text-blue-600
+  dark:hover:text-blue-400
+}
+#cursor {
+  overflow: visible;
+  transform: translate3d(300px, 0, 0) scale(1);
+  transform-origin: center center;
+  transform-box: fill-box;
+  animation: cursor 5s ease infinite alternate;
+}
+@keyframes cursor {
+  0% {
+    opacity: 0;
+    transform: translate3d(300px, 0, 0) scale(1);
+  }
+  30% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(-200px, -200px, 0) scale(1);
+  }
+  
+  /* clique */
+  65% {
+    opacity: 1;
+    transform: translate3d(-200px, -200px, 0) scale(0.95);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(-200px, -200px, 0) scale(1);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate3d(-300px, -50px, 0) scale(1);
+  }
+}
+
+#box {
+  opacity: 0;
+  animation: box 5s ease infinite alternate;
+}
+@keyframes box{
+  0%, 60%{
+    opacity: 0;
+  }
+  65%,100%{
+    opacity: 1;
+  }
+}
+#text {
+}
+
+
+/* SHINE */
+.shiny-text {
+  color: #b5b5b5a4; /* Adjust this color to change intensity/style */
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.8) 40%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255) 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  display: inline-block;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: -100%;
+  }
+}
+
+.shiny-text.disabled {
+  animation: none;
+}

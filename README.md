@@ -1,4 +1,6 @@
-# Mew novo Blog
+# Blog
+
+Blog pessoal com SWR e API do Notion
 
 ## Getting Started
 
